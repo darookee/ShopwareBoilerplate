@@ -62,14 +62,18 @@ class Shopware_Plugins_Frontend_Boilerplate_Bootstrap extends Shopware_Component
         * @see registerEvents
      */
     public function install() {
-        $this->registerHooks();
-        $this->registerEvents();
-        $this->addMenuEntries();
-        $this->addFormSettings();
+        if(
+            $this->registerHooks() &&
+            $this->registerEvents() &&
+            $this->registerMenuEntries() &&
+            $this->registerFormSettings()
+        )
+            return true;
+        else
+            return false;
     }
 
-    public function addFormSettings() {
-        
+    public function registerFormSettings() {
         if( count( self::$myForms ) > 0 ) {
             $form = $this->Form();
             foreach( self::$myForms as $key => $formArray ) {
