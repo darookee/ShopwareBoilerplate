@@ -56,6 +56,17 @@ class Shopware_Plugins_Frontend_Boilerplate_Bootstrap extends Shopware_Component
              */
         );
 
+    static $mySql =
+        array(
+            /*
+             *"CREATE TABLE `s_plugin_boilerplate` (
+             *    `id` int(11) NOT NULL AUTO_INCREMENT,
+             *    `name` varchar(255) DEFAULT NULL,
+             *    PRIMARY KEY ( `id` )
+             *) DEFAULT CHARSET=latin1",
+             */
+        );
+
     /**
         * install the plugin - call registerHooks and registerEvents 
         * @see registerHooks
@@ -66,13 +77,18 @@ class Shopware_Plugins_Frontend_Boilerplate_Bootstrap extends Shopware_Component
             $this->registerHooks() &&
             $this->registerEvents() &&
             $this->registerMenuEntries() &&
-            $this->registerFormSettings()
+            $this->registerFormSettings() &&
+            $this->executeSql()
         )
             return true;
         else
             return false;
     }
 
+    /**
+     * registers forms
+     * @returns true
+     */
     public function registerFormSettings() {
         if( count( self::$myForms ) > 0 ) {
             $form = $this->Form();
@@ -88,6 +104,10 @@ class Shopware_Plugins_Frontend_Boilerplate_Bootstrap extends Shopware_Component
         return true;
     }
 
+    /**
+     * registers Menuentries
+     * @returns true
+     */
     public function registerMenuEntries() {
         if( count( self::$myMenus ) > 0 ) {
             foreach( self::$myMenus as $key => $menuArray ) {
@@ -103,6 +123,7 @@ class Shopware_Plugins_Frontend_Boilerplate_Bootstrap extends Shopware_Component
     /**
      * registers the events for this plugin
      * @see myEvents
+     * @returns true
      */
     public function registerEvents() {
 
@@ -122,6 +143,7 @@ class Shopware_Plugins_Frontend_Boilerplate_Bootstrap extends Shopware_Component
     /**
      * registers the hooks for this plugin
      * @see myHooks
+     * @returns true
      */
     public function registerHooks() {
         if( count( self::$myHooks ) > 0 ) {
@@ -134,6 +156,20 @@ class Shopware_Plugins_Frontend_Boilerplate_Bootstrap extends Shopware_Component
                             $hookArray['position']
                         );
                 $this->subscribeHook( $hook );
+            }
+        }
+        return true;
+    }
+
+    /**
+     * execute sql statements (for table creation...)
+     * @returns true
+     */
+    public function executeSql() {
+        if( count( self::$mySql ) > 0 ) {
+            $db = Shopware()->Db();
+            foreach( self::$mySql as $sql ) {
+                $db->query( $sql );
             }
         }
         return true;
@@ -158,6 +194,14 @@ class Shopware_Plugins_Frontend_Boilerplate_Bootstrap extends Shopware_Component
      */
     public static function getImportControllerPath( $arg ) {
         return dirname(__FILE__) . '/Boilerplate.php';
+    }
+
+    /**
+     * wrapper for Shopware()->Log()->log() with predefined type
+     * @returns void
+     */
+    protected static function _log( $message = '', $type = Zend_Log::INFO ) {
+        Shopware()->Log()->log( $message, $type );
     }
 
 }
