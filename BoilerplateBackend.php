@@ -3,7 +3,7 @@
 /**
  * 
  */
-class Shopware_Controllers_Backend_Boilerplate extends Enlight_Controller_Action {
+class Shopware_Controllers_Backend_Boilerplate extends Shopware_Controllers_Backend_Extjs {
 
     protected $_useTemplates = true;
     protected $_templateBase = 'backend/plugins/boilerplate/';
