@@ -27,4 +27,8 @@ class Shopware_Controllers_Backend_Boilerplate extends Enlight_Controller_Action
         $this->View()->loadTemplate( $this->_templateBase . $name );
     }
 
+    protected function _log( $message = '', $type = Zend_Log::INFO ) {
+        Shopware()->Log()->log( $message, $type );
+    }
+
 }
