@@ -37,7 +37,7 @@ class Shopware_Plugins_Frontend_Boilerplate_Bootstrap extends Shopware_Component
 
     static $myMenus =
         array(
-            array(
+            'Artikel' => array(
                 'label' => 'Boilerplate',
                 'onclick' => 'openAction(\'Boilerplate\');',
                 'class' => 'ico2 connect',
@@ -98,7 +98,7 @@ class Shopware_Plugins_Frontend_Boilerplate_Bootstrap extends Shopware_Component
             $form = $this->Form();
             foreach( self::$myForms as $key => $formArray ) {
                 $form->setElement(
-                    $formArray['tyoe'],
+                    $formArray['type'],
                     $formArray['name'],
                     $formArray['settings']
                 );
