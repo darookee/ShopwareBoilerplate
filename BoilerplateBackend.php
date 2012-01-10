@@ -6,11 +6,17 @@
 class Shopware_Controllers_Backend_Boilerplate extends Shopware_Controllers_Backend_Extjs {
 
     protected $_useTemplates = true;
-    protected $_templateBase = 'backend/plugins/boilerplate/';
+    protected $_templateBase = 'backend/boilerplate/';
 
     public function init() {
         if( $this->_useTemplates == true )
             $this->View()->addTemplateDir( dirname( __FILE__ ) . '/templates/' );
+
+        if( $this->Request()->isPost() && !count( $this->Request()->getPost() ) ) {
+            $data = file_get_contents( 'php://input' );
+            $data = Zend_Json::decode( $data );
+            $this->Request()->setPost( $data );
+        }
     }
 
     public function skeletonAction() {
