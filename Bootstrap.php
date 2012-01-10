@@ -9,6 +9,10 @@ class Shopware_Plugins_Frontend_Boilerplate_Bootstrap extends Shopware_Component
     static $myEvents =
         array(
              array(
+                'event' => 'Enlight_Controller_Dispatcher_ControllerPath_Frontend_Boilerplate',
+                'method' => 'getFrontendControllerPath'
+             ),
+             array(
                 'event' => 'Enlight_Controller_Dispatcher_ControllerPath_Backend_Boilerplate',
                 'method' => 'getBackendControllerPath'
              ),
@@ -190,10 +194,17 @@ class Shopware_Plugins_Frontend_Boilerplate_Bootstrap extends Shopware_Component
     }
 
     /**
-     * @returns string path of Import controller
+     * @returns string path of Backend controller
      */
     public static function getBackendControllerPath( $arg ) {
         return dirname(__FILE__) . '/BoilerplateBackend.php';
+    }
+
+    /**
+     * @returns string path of Frontend controller
+     */
+    public static function getFrontendControllerPath( $arg ) {
+        return dirname(__FILE__) . '/BoilerplateFrontend.php';
     }
 
     /**
