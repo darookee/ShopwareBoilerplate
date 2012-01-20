@@ -10,17 +10,29 @@ class Shopware_Plugins_Frontend_Boilerplate_Bootstrap extends Shopware_Component
      */
     static $myEvents =
         array(
-             array(
+            array(
                 'event' => 'Enlight_Controller_Dispatcher_ControllerPath_Frontend_Boilerplate',
                 'method' => 'getFrontendControllerPath'
-             ),
-             array(
+            ),
+            array(
                 'event' => 'Enlight_Controller_Dispatcher_ControllerPath_Backend_Boilerplate',
                 'method' => 'getBackendControllerPath'
-             ),
+            ),
+
+            /** Common events **/
+            /*
+             *array(
+             *    'event' => 'Enlight_Controller_Action_PostDispatch_Frontend_Index',
+             *    'method' => 'onPostDispatchIndex'
+             *),
+             *array(
+             *    'event' => 'Enlight_Controller_Action_PostDispatch_Frontend_Checkout',
+             *    'method' => 'onPostDispatchCheckout'
+             *)
+             */
         );
 
-    /** 
+    /**
         * Hooks registrered with this plugin
         * @static
      */
@@ -39,13 +51,15 @@ class Shopware_Plugins_Frontend_Boilerplate_Bootstrap extends Shopware_Component
 
     static $myMenus =
         array(
-            'Artikel' => array(
-                'label' => 'Boilerplate',
-                'onclick' => 'openAction(\'Boilerplate\');',
-                'class' => 'ico2 connect',
-                'active' => 1,
-                'style' => 'background-position: 5px 5px;'
-            )
+            /*
+             *'Artikel' => array(
+             *    'label' => 'Boilerplate',
+             *    'onclick' => 'openAction(\'Boilerplate\');',
+             *    'class' => 'ico2 connect',
+             *    'active' => 1,
+             *    'style' => 'background-position: 5px 5px;'
+             *)
+             */
         );
 
     static $myForms =
@@ -74,7 +88,7 @@ class Shopware_Plugins_Frontend_Boilerplate_Bootstrap extends Shopware_Component
         );
 
     /**
-        * install the plugin - call registerHooks and registerEvents 
+        * install the plugin - call registerHooks and registerEvents
         * @see registerHooks
         * @see registerEvents
      */
