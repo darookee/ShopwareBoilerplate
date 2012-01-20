@@ -2,6 +2,8 @@
 
 class Shopware_Plugins_Frontend_Boilerplate_Bootstrap extends Shopware_Components_Plugin_Bootstrap {
 
+    static $_envBkp = NULL;
+
     /**
      * Events registered with this plugin
      * @static
@@ -205,6 +207,33 @@ class Shopware_Plugins_Frontend_Boilerplate_Bootstrap extends Shopware_Component
      */
     public static function getFrontendControllerPath( $arg ) {
         return dirname(__FILE__) . '/BoilerplateFrontend.php';
+    }
+
+    /**
+     * saves envvars
+     * useful for shopware core methods which substitute _GET vars (sArticles::sGetArticleById())
+     *
+     * @return true
+     */
+    protected static function _bkpEnv() {
+        self::$_envBkp = array(
+            '_SESSION' => Shopware()->System()->_SESSION,
+            '_GET' => Shopware()->System()->_GET,
+            '_POST' => Shopware()->System()->_POST
+        );
+        return true;
+    }
+
+    /**
+     * restores envvars
+     *
+     * @return true
+     */
+    protected static function _rstEnv() {
+        Shopware()->System()->_SESSION = self::$_envBkp['_SESSION'];
+        Shopware()->System()->_GET = self::$_envBkp['_GET'];
+        Shopware()->System()->_POST = self::$_envBkp['_POST'];
+        return true;
     }
 
     /**
