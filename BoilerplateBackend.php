@@ -3,7 +3,7 @@
 /**
  * 
  */
-class Shopware_Controllers_Backend_Boilerplate extends Shopware_Controllers_Backend_Extjs {
+class Shopware_Controllers_Backend_Boilerplate extends Shopware_Controllers_Backend_ExtJs {
 
     protected $_useTemplates = true;
     protected $_templateBase = 'backend/boilerplate/';
