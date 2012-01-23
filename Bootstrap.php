@@ -132,7 +132,7 @@ class Shopware_Plugins_Frontend_Boilerplate_Bootstrap extends Shopware_Component
         if( count( self::$myMenus ) > 0 ) {
             foreach( self::$myMenus as $key => $menuArray ) {
                 $parent = $this->Menu()->findOneBy( 'label', $key );
-                $item = $this->createMenuItem( array_merge( $menuArray, array( 'oarent' => $parent ) ) );
+                $item = $this->createMenuItem( array_merge( $menuArray, array( 'parent' => $parent ) ) );
                 $this->Menu()->addItem( $item );
             }
             $this->Menu()->save();
