@@ -245,14 +245,14 @@ class Shopware_Plugins_Frontend_Boilerplate_Bootstrap extends Shopware_Component
     /**
      * @returns string path of Backend controller
      */
-    public static function getBackendControllerPath( $arg ) {
+    public static function getBackendControllerPath( Enlight_Event_EventArgs $arg ) {
         return dirname(__FILE__) . '/BoilerplateBackend.php';
     }
 
     /**
      * @returns string path of Frontend controller
      */
-    public static function getFrontendControllerPath( $arg ) {
+    public static function getFrontendControllerPath( Enlight_Event_EventArgs $arg ) {
         return dirname(__FILE__) . '/BoilerplateFrontend.php';
     }
 
