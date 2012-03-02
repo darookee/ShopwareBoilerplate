@@ -87,6 +87,19 @@ class Shopware_Plugins_Frontend_Boilerplate_Bootstrap extends Shopware_Component
              */
         );
 
+    static $myCron =
+        array(
+            /*
+             *array(
+             *    'eventName' => 'BoilerplateCronjob',
+             *    'cronjobName' => 'Boilerplate-CronJob',
+             *    'functionName' => 'onCron',
+             *    'interval' => 3600,
+             *    'active' => true
+             *),
+             */
+        );
+
     /**
         * install the plugin - call registerHooks and registerEvents
         * @see registerHooks
@@ -98,6 +111,7 @@ class Shopware_Plugins_Frontend_Boilerplate_Bootstrap extends Shopware_Component
             $this->registerEvents() &&
             $this->registerMenuEntries() &&
             $this->registerFormSettings() &&
+            $this->registerCron() &&
             $this->executeSql()
         )
             return true;
@@ -182,6 +196,25 @@ class Shopware_Plugins_Frontend_Boilerplate_Bootstrap extends Shopware_Component
     }
 
     /**
+     * registers cronjobs for this plugin
+     * @see myCron
+     * @returns true
+     */
+    public function registerCron() {
+        if( count( self::$myCron ) > 0 ) {
+            foreach( self::$myCron as $cronArray ) {
+                $event = $this->createEvent(
+                    'Shopware_CronJob_' . $cronArray['eventName'],
+                    $cronArray['functionName']
+                );
+                $this->subscribeEvent( $event );
+                $this->subscribeCron( $cronArray['cronjobName'], $cronArray['eventName'], $cronArray['interval'], $cronArray['active'] );
+            }
+        }
+        return true;
+    }
+
+    /**
      * execute sql statements (for table creation...)
      * @returns true
      */
@@ -222,6 +255,17 @@ class Shopware_Plugins_Frontend_Boilerplate_Bootstrap extends Shopware_Component
     public static function getFrontendControllerPath( $arg ) {
         return dirname(__FILE__) . '/BoilerplateFrontend.php';
     }
+
+    /**
+     * Called as cronjob
+     * @returns true
+     */
+    /*
+     *public static function onCron( Shopware_Components_Cron_CronJob $job ) {
+     *    $job->stop();
+     *    return true;
+     *}
+     */
 
     /**
      * saves envvars
