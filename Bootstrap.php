@@ -234,7 +234,7 @@ class Shopware_Plugins_Frontend_Boilerplate_Bootstrap extends Shopware_Component
      */
     public function getInfo() {
         return array(
-            'version' => '0.0.2',
+            'version' => '0.0.3',
             'autor' => 'darookee',
             'copyright' => '(c) 2012',
             'label' => 'Shopware Boilerplate',
