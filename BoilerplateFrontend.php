@@ -6,7 +6,7 @@
 class Shopware_Controllers_Frontend_Boilerplate extends Enlight_Controller_Action {
 
     protected $_useTemplates = true;
-    protected $_templateBase = 'frontend/boilerplate/';
+    protected $_templateBase = 'frontend/plugins/boilerplate/';
 
     public function init() {
         if( $this->_useTemplates == true )
