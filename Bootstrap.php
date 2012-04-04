@@ -1,6 +1,6 @@
 <?php
 
-class Shopware_Plugins_Frontend_Boilerplate_Bootstrap extends Shopware_Components_Plugin_Bootstrap {
+class Shopware_Plugins_Backend_Boilerplate_Bootstrap extends Shopware_Components_Plugin_Bootstrap {
 
     static $_envBkp = NULL;
 
@@ -41,9 +41,9 @@ class Shopware_Plugins_Frontend_Boilerplate_Bootstrap extends Shopware_Component
             /*
              *array(
              *    'class' => 'sOrder',
-             *    'oMethod' => 'sGetOrderNumer',
-             *    'nMethod' => 'rGetOrderNumber',
-             *    'type' => Enlight_Hook_HookHandler::TypeReplace,
+             *    'oMethod' => 'sSaveOrder',
+             *    'nMethod' => 'aSaveOrder',
+             *    'type' => Enlight_Hook_HookHandler::TypeAfter,
              *    'position' => 0
              *)
              */
@@ -67,7 +67,7 @@ class Shopware_Plugins_Frontend_Boilerplate_Bootstrap extends Shopware_Component
             /*
              *array(
              *    'type' => 'text',
-             *    'name' => 'Testfield',
+             *    'name' => 'testfield',
              *    'settings' =>
              *        array(
              *            'label' => 'Testfield',
@@ -92,7 +92,7 @@ class Shopware_Plugins_Frontend_Boilerplate_Bootstrap extends Shopware_Component
             /*
              *array(
              *    'eventName' => 'BoilerplateCronjob',
-             *    'cronjobName' => 'Boilerplate-CronJob',
+             *    'cronjobName' => 'Boilerplate',
              *    'functionName' => 'onCron',
              *    'interval' => 3600,
              *    'active' => true
@@ -234,10 +234,10 @@ class Shopware_Plugins_Frontend_Boilerplate_Bootstrap extends Shopware_Component
      */
     public function getInfo() {
         return array(
-            'version' => '0.0.3',
+            'version' => '0.0.4',
             'autor' => 'darookee',
             'copyright' => '(c) 2012',
-            'label' => 'Shopware Boilerplate',
+            'label' => 'Boilerplate',
             'source' => 'Local',
         );
     }
@@ -259,10 +259,19 @@ class Shopware_Plugins_Frontend_Boilerplate_Bootstrap extends Shopware_Component
     /**
      * Called as cronjob
      * @returns true
+     *
+     * Wrapped in a try ... catch because there may be issues when an exception is thrown
+     *  - sometimes the cronjob will not be run ever again
+     * to prevent this the exception is caught and the message can be viewed in the cj settings
      */
     /*
      *public static function onCron( Shopware_Components_Cron_CronJob $job ) {
-     *    $job->stop();
+     *    try {
+     *        $job->stop();
+     *    } catch( Exception $e ) {
+     *        $job->setData( $e->getMessage() );
+     *        $job->stop();
+     *    }
      *    return true;
      *}
      */
