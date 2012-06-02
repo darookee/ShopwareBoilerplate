@@ -9,7 +9,7 @@ if hash git 2>&- /dev/null; then
     git checkout -b ${NEWNAME,,}
 fi
 
-sed -i "s/Backend_Boilerplate/${NEWTYPE,,}_Boilerplate/g" Bootstrap.php
+sed -i "s/Backend_Boilerplate/${NEWTYPE}_Boilerplate/g" Bootstrap.php
 find . ! -path "*./.*" -type f -exec sed -i "s/Boilerplate/${NEWNAME}/g" {} \;
 find . ! -path "*./.*" -type f -exec sed -i "s/boilerplate/${NEWNAME,,}/g" {} \;
 git mv templates/backend/boilerplate templates/backend/${NEWNAME,,} -f
