@@ -4,8 +4,19 @@ class Shopware_Plugins_Backend_Boilerplate_Bootstrap extends Shopware_Components
 
     static $_envBkp = NULL;
 
+    /**
+     * The Plugin-Version
+     **/
     const VERSION = '0.5';
+
+    /**
+     * The author
+     **/
     const AUTHOR = 'darookee';
+
+    /**
+     * The name displayed in the pluginmanager
+     **/
     const PLUGINNAME = 'Boilerplate';
 
     /**
@@ -212,6 +223,10 @@ class Shopware_Plugins_Backend_Boilerplate_Bootstrap extends Shopware_Components
 
     /**
      * Returns the version of plugin as string.
+     *
+     * THIS DOES NOT WORK FOR Shopware Code-Review/Community-Store
+     * It HAS TO return the Version like this
+     * return '1.0.0';
      *
      * @return string
      */
