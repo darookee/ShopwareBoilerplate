@@ -323,7 +323,7 @@ class Shopware_Plugins_Frontend_Boilerplate_Bootstrap extends Shopware_Component
      **/
     public function onPostDispatch(Enlight_Event_EventArgs $args) {
         /** @var $controller Shopware_Controllers_Frontend_Index */
-        $controller = $arguments->getSubject();
+        $controller = $args->getSubject();
 
         /** @var $request Zend_Controller_Request_Http */
         $request = $controller->Request();
