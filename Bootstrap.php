@@ -1,21 +1,28 @@
 <?php
 
-class Shopware_Plugins_Backend_Boilerplate_Bootstrap extends Shopware_Components_Plugin_Bootstrap {
-
-    static $_envBkp = NULL;
+/**
+ * Class Shopware_Plugins_Backend_Boilerplate_Bootstrap 
+ *
+ * @author Nils Uliczka
+ * @author Anton
+ */
+class Shopware_Plugins_Frontend_Boilerplate_Bootstrap extends Shopware_Components_Plugin_Bootstrap {
 
     /**
      * The Plugin-Version
+     * @var string
      **/
-    const VERSION = '0.5';
+    const VERSION = '0.6.0';
 
     /**
      * The author
+     * @var string
      **/
     const AUTHOR = 'darookee';
 
     /**
      * The name displayed in the pluginmanager
+     * @var string
      **/
     const PLUGINNAME = 'Boilerplate';
 
@@ -25,21 +32,36 @@ class Shopware_Plugins_Backend_Boilerplate_Bootstrap extends Shopware_Components
      */
     static $myEvents =
         array(
-            array(
-                'event' => 'Enlight_Controller_Dispatcher_ControllerPath_Frontend_Boilerplate',
-                'method' => 'getFrontendControllerPath'
-            ),
-            array(
-                'event' => 'Enlight_Controller_Dispatcher_ControllerPath_Backend_Boilerplate',
-                'method' => 'getBackendControllerPath'
-            ),
+            /** Get path to requested frontend controller **/
+            /*
+             *array(
+             *    'event' => 'Enlight_Controller_Dispatcher_ControllerPath_Frontend_Boilerplate',
+             *    'method' => 'getFrontendControllerPath'
+             *),
+             */
+            /** Get path to requested backend controller **/
+            /*
+             *array(
+             *    'event' => 'Enlight_Controller_Dispatcher_ControllerPath_Backend_Boilerplate',
+             *    'method' => 'getBackendControllerPath'
+             *),
+             */
 
             /** Common events **/
+            /** PostDispatch - all **/
+            array(
+                'event' => 'Enlight_Controller_Action_PostDispatch',
+                'method' => 'onPostDispatch'
+            ),
+            /** Homepage **/
             /*
              *array(
              *    'event' => 'Enlight_Controller_Action_PostDispatch_Frontend_Index',
              *    'method' => 'onPostDispatchIndex'
              *),
+             */
+            /** Checkout (cart,...) **/
+            /*
              *array(
              *    'event' => 'Enlight_Controller_Action_PostDispatch_Frontend_Checkout',
              *    'method' => 'onPostDispatchCheckout'
@@ -70,7 +92,8 @@ class Shopware_Plugins_Backend_Boilerplate_Bootstrap extends Shopware_Components
              *    'settings' =>
              *        array(
              *            'label' => 'Testfield',
-             *            'scope' => \Shopware\Models\Config\Element::SCOPE_SHOP
+             *            'scope' => \Shopware\Models\Config\Element::SCOPE_SHOP,
+             *            'value' => 'testvalue'
              *        ),
              *)
              */
@@ -101,9 +124,9 @@ class Shopware_Plugins_Backend_Boilerplate_Bootstrap extends Shopware_Components
         );
 
     /**
-        * install the plugin - call registerHooks and registerEvents
-        * @see registerHooks
-        * @see registerEvents
+     * install the plugin - call registerHooks and registerEvents
+     * @see registerHooks
+     * @see registerEvents
      */
     public function install() {
         if(
@@ -215,7 +238,7 @@ class Shopware_Plugins_Backend_Boilerplate_Bootstrap extends Shopware_Components
         return array(
             'version' => $this->getVersion(),
             'autor' => self::AUTHOR,
-            'copyright' => '(c) 2012',
+            'copyright' => '(c) '.date('Y'),
             'label' => $this->getLabel(),
             'description' => $this->getDescription()
         );
@@ -231,6 +254,10 @@ class Shopware_Plugins_Backend_Boilerplate_Bootstrap extends Shopware_Components
      * @return string
      */
     public function getVersion() {
+        //return '0.6.0'; // when you submit your plugin to the shopware store
+                          // you need to return the version string here
+                          // without using the constant to pass 
+                          // the code quality test
         return self::VERSION;
     }
 
@@ -255,16 +282,20 @@ class Shopware_Plugins_Backend_Boilerplate_Bootstrap extends Shopware_Components
     /**
      * @returns string path of Backend controller
      */
-    public static function getBackendControllerPath(Enlight_Event_EventArgs $args) {
-        return dirname(__FILE__) . '/Controllers/BoilerplateBackend.php';
-    }
+    /*
+     *public static function getBackendControllerPath(Enlight_Event_EventArgs $args) {
+     *    return dirname(__FILE__) . '/Controllers/BoilerplateBackend.php';
+     *}
+     */
 
     /**
      * @returns string path of Frontend controller
      */
-    public static function getFrontendControllerPath(Enlight_Event_EventArgs $args) {
-        return dirname(__FILE__) . '/Controllers/BoilerplateFrontend.php';
-    }
+    /*
+     *public static function getFrontendControllerPath(Enlight_Event_EventArgs $args) {
+     *    return dirname(__FILE__) . '/Controllers/BoilerplateFrontend.php';
+     *}
+     */
 
     /**
      * Called as cronjob
@@ -287,30 +318,48 @@ class Shopware_Plugins_Backend_Boilerplate_Bootstrap extends Shopware_Components
      */
 
     /**
-     * saves envvars
-     * useful for shopware core methods which substitute _GET vars (sArticles::sGetArticleById())
-     *
-     * @return true
-     */
-    protected static function _bkpEnv() {
-        self::$_envBkp = array(
-            '_SESSION' => Shopware()->System()->_SESSION,
-            '_GET' => Shopware()->System()->_GET,
-            '_POST' => Shopware()->System()->_POST
-        );
-        return true;
+     * onPostDispatch
+     * @return void
+     **/
+    public function onPostDispatch(Enlight_Event_EventArgs $args) {
+        /** @var $controller Shopware_Controllers_Frontend_Index */
+        $controller = $arguments->getSubject();
+
+        /** @var $request Zend_Controller_Request_Http */
+        $request = $controller->Request();
+
+        /** @var $response Zend_Controller_Response_Http */
+        $response = $controller->Response();
+
+        /** @var $view Enlight_View_Default  */
+        $view = $controller->View();
+
+        //Check if there is a template and if an exception has occured
+        if(
+            !$request->isDispatched()
+            ||$response->isException()
+            || !$view->hasTemplate()
+            //|| $request->getModuleName() != 'frontend' // check for frontend
+        ) {
+            return;
+        }
+
+        if($this->isConnexoTemplate()) { // Connexo Responsive Template
+            $view->addTemplateDir(dirname(__FILE__) . '/Views.connexo/');
+        } else { // .. default template
+            $view->addTemplateDir(dirname(__FILE__) . '/Views/');
+        }
+
     }
 
     /**
-     * restores envvars
+     * check for Connexo Template
      *
-     * @return true
+     * @return array|false
      */
-    protected static function _rstEnv() {
-        Shopware()->System()->_SESSION = self::$_envBkp['_SESSION'];
-        Shopware()->System()->_GET = self::$_envBkp['_GET'];
-        Shopware()->System()->_POST = self::$_envBkp['_POST'];
-        return true;
+    private function isConnexoTemplate() {
+        $sql = "SELECT `active` FROM `s_core_plugins` WHERE `name` = 'SwfResponsiveTemplate' LIMIT 1";
+        return Shopware()->Db()->fetchOne($sql);
     }
 
 }
