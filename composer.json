@@ -1,0 +1,13 @@
+{
+    "name": "darookee/shopware-boilerplate",
+    "description": "Boilerplate for Shopware-Plugins",
+    "license": "MIT",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Nils Uliczka",
+            "email": "nils.uliczka@darookee.net"
+        }
+    ],
+    "require": {}
+}

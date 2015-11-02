@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Class Shopware_Plugins_Backend_Boilerplate_Bootstrap 
+ * Class Shopware_Plugins_Backend_Boilerplate_Bootstrap
  *
  * @author Nils Uliczka
  * @author Anton
@@ -12,13 +12,19 @@ class Shopware_Plugins_Frontend_Boilerplate_Bootstrap extends Shopware_Component
      * The Plugin-Version
      * @var string
      **/
-    const VERSION = '0.6.0';
+    const VERSION = '1.0.0';
 
     /**
      * The author
      * @var string
      **/
     const AUTHOR = 'darookee';
+
+    /**
+     * The Link to the author's homepage
+     * @var string
+     **/
+    const LINK = 'http://darookee.net';
 
     /**
      * The name displayed in the pluginmanager
@@ -143,7 +149,7 @@ class Shopware_Plugins_Frontend_Boilerplate_Bootstrap extends Shopware_Component
 
     /**
      * registers forms
-     * @returns true
+     * @return boolean true
      */
     public function registerFormSettings() {
         if(count(self::$myForms) > 0) {
@@ -162,7 +168,7 @@ class Shopware_Plugins_Frontend_Boilerplate_Bootstrap extends Shopware_Component
 
     /**
      * registers Menuentries
-     * @returns true
+     * @return boolean true
      */
     public function registerMenuEntries() {
         if(count(self::$myMenus) > 0) {
@@ -182,7 +188,7 @@ class Shopware_Plugins_Frontend_Boilerplate_Bootstrap extends Shopware_Component
     /**
      * registers the events for this plugin
      * @see myEvents
-     * @returns true
+     * @return boolean true
      */
     public function registerEvents() {
 
@@ -201,7 +207,7 @@ class Shopware_Plugins_Frontend_Boilerplate_Bootstrap extends Shopware_Component
     /**
      * registers cronjobs for this plugin
      * @see myCron
-     * @returns true
+     * @return boolean true
      */
     public function registerCron() {
         if(count(self::$myCron) > 0) {
@@ -218,7 +224,7 @@ class Shopware_Plugins_Frontend_Boilerplate_Bootstrap extends Shopware_Component
 
     /**
      * execute sql statements (for table creation...)
-     * @returns true
+     * @return boolean true
      */
     public function executeSql() {
         if(count(self::$mySql) > 0) {
@@ -231,13 +237,14 @@ class Shopware_Plugins_Frontend_Boilerplate_Bootstrap extends Shopware_Component
     }
 
     /**
-     * returns version for plugin manager
-     * @returns array of version information
+     * return version for plugin manager
+     * @return array of version information
      */
     public function getInfo() {
         return array(
             'version' => $this->getVersion(),
             'autor' => self::AUTHOR,
+            'link' => self::LINK,
             'copyright' => '(c) '.date('Y'),
             'label' => $this->getLabel(),
             'description' => $this->getDescription()
@@ -245,42 +252,42 @@ class Shopware_Plugins_Frontend_Boilerplate_Bootstrap extends Shopware_Component
     }
 
     /**
-     * Returns the version of plugin as string.
+     * return the version of plugin as string.
      *
      * THIS DOES NOT WORK FOR Shopware Code-Review/Community-Store
      * It HAS TO return the Version like this
      * return '1.0.0';
      *
-     * @return string
+     * @return string the Version
      */
     public function getVersion() {
-        //return '0.6.0'; // when you submit your plugin to the shopware store
+        //return '1.0.0'; // when you submit your plugin to the shopware store
                           // you need to return the version string here
-                          // without using the constant to pass 
+                          // without using the constant to pass
                           // the code quality test
         return self::VERSION;
     }
 
     /**
-     * Returnss the plugin label as string
+     * returns the plugin label as string
      *
-     * @return string
+     * @return string Name of the plugin
      */
     public function getLabel() {
         return self::PLUGINNAME;
     }
 
     /**
-     * Returns plugindescription from file info.txt
+     * return plugindescription from file info.txt
      *
-     * @return string
+     * @return string Path to info.txt
      */
     public function getDescription() {
         return file_get_contents($this->Path().'/info.txt');
     }
 
     /**
-     * @returns string path of Backend controller
+     * @return string path of Backend controller
      */
     /*
      *public static function getBackendControllerPath(Enlight_Event_EventArgs $args) {
@@ -289,7 +296,7 @@ class Shopware_Plugins_Frontend_Boilerplate_Bootstrap extends Shopware_Component
      */
 
     /**
-     * @returns string path of Frontend controller
+     * @return string path of Frontend controller
      */
     /*
      *public static function getFrontendControllerPath(Enlight_Event_EventArgs $args) {
@@ -299,7 +306,7 @@ class Shopware_Plugins_Frontend_Boilerplate_Bootstrap extends Shopware_Component
 
     /**
      * Called as cronjob
-     * @returns true
+     * @return boolean true
      *
      * Wrapped in a try ... catch because there may be issues when an exception is thrown
      *  - sometimes the cronjob will not be run ever again
@@ -319,6 +326,7 @@ class Shopware_Plugins_Frontend_Boilerplate_Bootstrap extends Shopware_Component
 
     /**
      * onPostDispatch
+     * @param Enlight_Event_EventArgs $args
      * @return void
      **/
     public function onPostDispatch(Enlight_Event_EventArgs $args) {
