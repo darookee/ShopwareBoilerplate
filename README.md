@@ -4,9 +4,15 @@ Shopware Plugin Boilerplate
 Quickstart
 ----------
 
+```shell
+composer create-project darookee/shopware-boilerplate
 ```
-% git clone https://github.com/darookee/ShopwareBoilerplate.git
-% ./setup.sh YourPluginName Frontend
+
+or
+
+```shell
+git clone https://github.com/darookee/ShopwareBoilerplate.git
+./setup.sh YourPluginName Frontend
 ```
 
 setup.sh renames the controllers and views and empties the README.md.
